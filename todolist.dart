@@ -41,13 +41,62 @@ class _TodosScreenState extends State<TodosScreen> {
             onTap: () {
               Navigator.push(
                 context,
-                  MaterialPageRoute(
-                    builder: (context) => DetailScreen(todo: _todos[index])
-                  )
+                MaterialPageRoute(
+                  builder: (context) =>
+                    DetailScreen(todo: _todos[index])
+                )
               );
             },
           );
-        }
+        }),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () async {
+          final Todo? newTodo = await showDialog<Todo>(
+            context: context,
+            builder: (BuildContext context) {
+              String? title;
+              String? description;
+              return AlertDialog(
+                title: const Text('Create New Todo'),
+                content: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    TextField(
+                      decoration: InputDecoration(labelText: 'Title'),
+                      onChanged: (value) => title = value,
+                    ),
+                    TextField(
+                      decoration: InputDecoration(labelText: 'Description'),
+                      onChanged: (value) => description = value,
+                    ),
+                  ],
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    child: const Text('Cancel'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }
+                  ),
+                  TextButton(
+                    child: const Text('Save'),
+                    onPressed: () {
+                      if (title != null && description != null) {
+                        Navigator.pop(context, Todo(title!, description!));
+                      }
+                    }
+                  ),
+                ],
+              );
+            }
+          );
+          if (newTodo != null) {
+            setState(() {
+              _todos.add(newTodo);
+            });
+          }
+        },
       ),
     );
   }
@@ -62,7 +111,9 @@ class DetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(todo.title),),
+      appBar: AppBar(
+        title: Text(todo.title),
+      ),
       body: ListTile(
         title: Text(todo.description),
       ),
