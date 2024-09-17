@@ -47,6 +47,14 @@ class _TodosScreenState extends State<TodosScreen> {
                 )
               );
             },
+            trailing: IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () {
+                setState(() {
+                  _todos.removeAt(index);
+                });
+              },
+            ),
           );
         }),
       floatingActionButton: FloatingActionButton(
