@@ -34,19 +34,21 @@ class _TodosScreenState extends State<TodosScreen> {
         title: const Text('My Tasks'),
       ),
       body: ListView.builder(
-          itemCount: _todos.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(_todos[index].title),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            DetailScreen(todo: _todos[index])));
-              },
-            );
-          }),
+        itemCount: _todos.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(_todos[index].title),
+            onTap: () {
+              Navigator.push(
+                context,
+                  MaterialPageRoute(
+                    builder: (context) => DetailScreen(todo: _todos[index])
+                  )
+              );
+            },
+          );
+        }
+      ),
     );
   }
 }
@@ -64,7 +66,6 @@ class DetailScreen extends StatelessWidget {
       body: ListTile(
         title: Text(todo.description),
       ),
-      
     );
   }
 }
