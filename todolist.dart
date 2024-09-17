@@ -38,8 +38,33 @@ class _TodosScreenState extends State<TodosScreen> {
           itemBuilder: (context, index) {
             return ListTile(
               title: Text(_todos[index].title),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            DetailScreen(todo: _todos[index])));
+              },
             );
           }),
+    );
+  }
+}
+
+// DetailScreen
+// takes in a single Todo object
+class DetailScreen extends StatelessWidget {
+  final Todo todo;
+  const DetailScreen({Key? key, required this.todo}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(todo.title),),
+      body: ListTile(
+        title: Text(todo.description),
+      ),
+      
     );
   }
 }
